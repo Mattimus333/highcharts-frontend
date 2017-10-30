@@ -2,8 +2,26 @@
   line-height: 100px;
   text-align: center;
 }
+.link-container {
+  height: 100px;
+  margin:0 auto;
+  text-align: center;
+  width: 500px;
+}
 .graph {
-  width:45%;
-  height:400px;
   float:left;
+  height:400px;
+  width:45%;
+}
+span {
+  color: black;
+  font-size: 26px;
+  font-weight: bold;
+}
+a {
+  color: #a18f60;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 30px;
+  line-height: 30px;
 }
