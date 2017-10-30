@@ -1,0 +1,9 @@
+.header-container {
+  line-height: 100px;
+  text-align: center;
+}
+.graph {
+  width:45%;
+  height:400px;
+  float:left;
+}
