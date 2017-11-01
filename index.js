@@ -20,14 +20,14 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       }
     },
     legend: {
-     itemStyle: {
-         fontWeight: '',
-     }
+      itemStyle: {
+        fontWeight: '',
+      }
     },
-   lang: {
+    lang: {
       thousandsSep: ','
-   },
-   colors: ['#8d9091', 'black', '#f4bd0c', '#a18f60', 'purple'],
+    },
+    colors: ['#8d9091', 'black', '#f4bd0c', '#a18f60', 'purple'],
   });
 
 
@@ -77,13 +77,13 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
 
   Highcharts.chart('histogram-container', {
     chart: {
-        type: 'column'
+      type: 'column'
     },
     title: {
-        text: 'Random Data'
+      text: 'Random Data'
     },
     subtitle: {
-        text: 'A different look'
+      text: 'A different look'
     },
     tooltip: {
       headerFormat: '<b>{series.name}</b><br/>',
