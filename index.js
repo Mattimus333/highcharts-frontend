@@ -6,7 +6,6 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
     if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
       itemValueArr.push({
-        id: itemName,
         name: itemName,
         data: [APIdata[item]],
         y: APIdata[item],
@@ -49,7 +48,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              series = highcharts.get(this.options.id);
+              series = highcharts.get(this.options.name);
               if (series) {
                 if (this.visible) {
                     series.hide();
@@ -93,7 +92,10 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
     xAxis: {
       categories: itemValueArr.map((item) => {
         return item.name
-      })
+      }),
+      labels: {
+        enabled: false,
+      },
     },
     legend: {
       enabled: true,
@@ -111,7 +113,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
         events: {
           legendItemClick: function (event) {
             var highcharts = $('#pie-container').highcharts(),
-            point = highcharts.get(this.options.id);
+            point = highcharts.get(this.options.name);
             if (point) {
               point.setVisible(!this.visible);
             }
