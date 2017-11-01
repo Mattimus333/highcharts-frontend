@@ -5,7 +5,12 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
   for (var item in APIdata){
     if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
-      itemValueArr.push([itemName, APIdata[item]]);
+      itemValueArr.push({
+        id: itemName,
+        name: itemName,
+        data: [APIdata[item]],
+        y: APIdata[item],
+      });
     }
   }
 
@@ -19,7 +24,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
      itemStyle: {
          fontWeight: '',
      }
- },
+    },
    lang: {
       thousandsSep: ','
    },
@@ -39,6 +44,23 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       pointFormat: '${point.y} ({point.percentage:.1f}%)'
     },
     plotOptions: {
+      series: {
+        point: {
+          events: {
+            legendItemClick: function (event) {
+              var highcharts = $('#histogram-container').highcharts(),
+              series = highcharts.get(this.options.id);
+              if (series) {
+                if (this.visible) {
+                    series.hide();
+                } else {
+                    series.show();
+                }
+              }
+            }
+          }
+        }
+      },
       pie: {
         innerSize: '65%',
         allowPointSelect: true,
@@ -69,10 +91,12 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       pointFormat: '${point.y}'
     },
     xAxis: {
-      type: "category"
+      categories: itemValueArr.map((item) => {
+        return item.name
+      })
     },
     legend: {
-      enabled: false,
+      enabled: true,
     },
     yAxis: {
       title: {
@@ -83,14 +107,23 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       }
     },
     plotOptions: {
+      series: {
+        events: {
+          legendItemClick: function (event) {
+            var highcharts = $('#pie-container').highcharts(),
+            point = highcharts.get(this.options.id);
+            if (point) {
+              point.setVisible(!this.visible);
+            }
+          }
+        },
+        allowPointSelect: true
+      },
       column: {
-          colorByPoint: true,
           pointPadding: 0.2,
           borderWidth: 0
       }
     },
-    series: [{
-      data: itemValueArr
-    }]
+    series: itemValueArr
   });
 });
