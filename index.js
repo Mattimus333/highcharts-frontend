@@ -73,8 +73,12 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       pointFormat: '${point.y}'
     },
     xAxis: {
-        tickPositions: []
+      categories: itemNameArr,
+      tickPositions: []
     },
+    legend: {
+      
+    }
     yAxis: {
       title: {
         style: {
@@ -85,6 +89,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
     },
     plotOptions: {
       column: {
+          colorByPoint: true,
           pointPadding: 0.2,
           borderWidth: 0
       }
