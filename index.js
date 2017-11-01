@@ -72,9 +72,9 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       headerFormat: '<b>{series.name}</b><br/>',
       pointFormat: '${point.y}'
     },
-    // xAxis: {
-    //     tickPositions: []
-    // },
+    xAxis: {
+        tickPositions: []
+    },
     yAxis: {
       title: {
         style: {
