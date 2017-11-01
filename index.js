@@ -77,8 +77,8 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       tickPositions: []
     },
     legend: {
-      
-    }
+      enabled: false,
+    },
     yAxis: {
       title: {
         style: {
