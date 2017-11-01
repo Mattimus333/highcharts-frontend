@@ -1,23 +1,17 @@
 $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
   var APIdata = data[0];
-  var pieChartData = [];
-  var histogramData = [];
+  var itemNameArr = [];
+  var itemValueArr = [];
 
   for (var item in APIdata){
     if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
-      var pieObj = {
-        name: itemName,
-        y: APIdata[item]
-      };
-      var histoObj = {
-        name: itemName,
-        data: [APIdata[item]]
-      };
-      pieChartData.push(pieObj);
-      histogramData.push(histoObj);
+      itemNameArr.push(itemName);
+      itemValueArr.push([itemName, APIdata[item]]);
     }
   }
+  console.log(itemNameArr);
+  console.log(itemValueArr);
 
   Highcharts.setOptions({
     chart: {
@@ -59,7 +53,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       },
     },
     series: [{
-    data: pieChartData
+      data: itemValueArr
     }]
   });
 
@@ -78,9 +72,9 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       headerFormat: '<b>{series.name}</b><br/>',
       pointFormat: '${point.y}'
     },
-    xAxis: {
-        tickPositions: []
-    },
+    // xAxis: {
+    //     tickPositions: []
+    // },
     yAxis: {
       title: {
         style: {
@@ -95,6 +89,8 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
           borderWidth: 0
       }
     },
-    series: histogramData,
+    series: [{
+      data: itemValueArr
+    }]
   });
 });
