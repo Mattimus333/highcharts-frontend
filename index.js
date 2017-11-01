@@ -1,17 +1,13 @@
 $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
   var APIdata = data[0];
-  var itemNameArr = [];
   var itemValueArr = [];
 
   for (var item in APIdata){
     if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
-      itemNameArr.push(itemName);
       itemValueArr.push([itemName, APIdata[item]]);
     }
   }
-  console.log(itemNameArr);
-  console.log(itemValueArr);
 
   Highcharts.setOptions({
     chart: {
@@ -73,8 +69,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       pointFormat: '${point.y}'
     },
     xAxis: {
-      categories: itemNameArr,
-      tickPositions: []
+      type: "category"
     },
     legend: {
       enabled: false,
