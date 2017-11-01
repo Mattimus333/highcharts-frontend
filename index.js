@@ -6,6 +6,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
     if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
       itemValueArr.push({
+        id: itemName,
         name: itemName,
         data: [APIdata[item]],
         y: APIdata[item],
@@ -48,7 +49,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              series = highcharts.get(this.options.name);
+              series = highcharts.get(this.options.id);
               if (series) {
                 if (this.visible) {
                     series.hide();
@@ -113,7 +114,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
         events: {
           legendItemClick: function (event) {
             var highcharts = $('#pie-container').highcharts(),
-            point = highcharts.get(this.options.name);
+            point = highcharts.get(this.options.id);
             if (point) {
               point.setVisible(!this.visible);
             }
