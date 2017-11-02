@@ -10,7 +10,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       y: data[item],
     });
   }
-
+  console.log(itemValueArr);
   Highcharts.setOptions({
     chart: {
       style: {
