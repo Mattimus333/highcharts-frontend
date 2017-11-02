@@ -55,10 +55,12 @@ $.get('http://localhost:3000/data', function (data) {
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              point = highcharts.get(this.options.id);
-              console.log(point.visible)
-              if (point) {
-                point.setVisible(!this.visible);
+              column = highcharts.get(this.options.id);
+              console.log(column)
+              if(column.graphic.visibility == 'hidden'){
+                  column.graphic.show();
+              } else {
+                   column.graphic.hide();
               }
             }
           }
