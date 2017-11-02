@@ -2,7 +2,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
 
   var APIdata = data;
   var itemValueArr = [];
-
+  console.log('this shit')
   for (var item in APIdata){
     // if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
