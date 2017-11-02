@@ -1,10 +1,9 @@
 $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
 
-  var APIdata = data;
+  var APIdata = data[0];
   var itemValueArr = [];
   console.log('this shit')
   for (var item in APIdata){
-    // if(item !== 'id'){
       itemName = item.charAt(0).toUpperCase() + item.slice(1);
       itemValueArr.push({
         id: itemName,
@@ -12,19 +11,7 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
         data: [APIdata[item]],
         y: APIdata[item],
       });
-    // }
   }
-  // console.log('this shit');
-  // var itemValueArr = [];
-  // for (var item in data){
-  //   itemName = item.charAt(0).toUpperCase() + item.slice(1);
-  //   itemValueArr.push({
-  //     id: itemName,
-  //     name: itemName,
-  //     data: [data[item]],
-  //     y: data[item],
-  //   });
-  // }
   console.log(itemValueArr);
   Highcharts.setOptions({
     chart: {
