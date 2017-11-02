@@ -1,5 +1,5 @@
 $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
-
+  console.log('this shit');
   var itemValueArr = [];
   for (var item in data){
     itemName = item.charAt(0).toUpperCase() + item.slice(1);
