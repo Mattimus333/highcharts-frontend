@@ -1,16 +1,4 @@
 $.get('http://localhost:3000/data', function (data) {
-  // var itemValueArr = [];
-  // for (var item in data){
-  //   itemName = item.charAt(0).toUpperCase() + item.slice(1);
-  //   itemValueArr.push({
-  //     id: itemName,
-  //     name: itemName,
-  //     data: [data[item]],
-  //     y: data[item],
-  //   });
-  // }
-  console.log(data)
-
   Highcharts.setOptions({
     chart: {
       style: {
@@ -34,9 +22,8 @@ $.get('http://localhost:3000/data', function (data) {
       csv: data,
       seriesMapping: [{
         id: 0,
-        name: 0,
-        x: 0, // X values are pulled from column 0 by default
-        y: 1, // Y values are pulled from column 1 by default
+        x: 0,
+        y: 1,
       }]
     },
     chart: {
@@ -58,9 +45,9 @@ $.get('http://localhost:3000/data', function (data) {
               column = highcharts.get(this.options.id);
               console.log(column)
               if(column.graphic.visibility == 'hidden'){
-                  column.graphic.show();
+                column.graphic.show();
               } else {
-                   column.graphic.hide();
+                column.graphic.hide();
               }
             }
           }
@@ -75,9 +62,6 @@ $.get('http://localhost:3000/data', function (data) {
         showInLegend: true
       },
     },
-    // series: [{
-    //   data: itemValueArr
-    // }]
   });
 
 
@@ -87,8 +71,8 @@ $.get('http://localhost:3000/data', function (data) {
       seriesMapping: [{
         id: 0,
         name: 0,
-        x: 0, // X values are pulled from column 0 by default
-        y: 1, // Y values are pulled from column 1 by default
+        x: 0,
+        y: 1,
       }]
     },
     chart: {
@@ -101,19 +85,14 @@ $.get('http://localhost:3000/data', function (data) {
       text: 'A different look'
     },
     tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
+      headerFormat: '<b>{point.key}</b><br/>',
       pointFormat: '${point.y}'
     },
-    // xAxis: {
-    //   categories: itemValueArr.map((item) => {
-    //     return item.name
-    //   }),
-    //   labels: {
-    //     enabled: false,
-    //   },
-    // },
+    xAxis: {
+
+    },
     legend: {
-      enabled: true,
+      enabled: false,
     },
     yAxis: {
       title: {
@@ -125,22 +104,26 @@ $.get('http://localhost:3000/data', function (data) {
     },
     plotOptions: {
       series: {
-        events: {
-          legendItemClick: function (event) {
-            var highcharts = $('#pie-container').highcharts(),
-            point = highcharts.get(this.options.id);
-            if (point) {
-              point.setVisible(!this.visible);
-            }
-          }
+        point: {
+          // events: {
+          //   click: function (event) {
+          //     if(this.graphic.visibility == 'hidden'){
+          //       this.graphic.show();
+          //     } else {
+          //       this.graphic.hide();
+          //     }
+          //   },
+          // },
         },
         allowPointSelect: true
       },
       column: {
-          pointPadding: 0.2,
-          borderWidth: 0
-      }
+        pointPadding: 0.2,
+        borderWidth: 0
+      },
     },
-    // series: itemValueArr
+    series: [{
+      colorByPoint: true,
+    }]
   });
 });
