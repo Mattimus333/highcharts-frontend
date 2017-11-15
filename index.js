@@ -121,6 +121,7 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
         point: {
           events: {
             legendItemClick: function (event) {
+              console.log('this happened')
               var highcharts = $('#pie-container').highcharts(),
               series = highcharts.series[getSeriesIndex(this.options.name)];
               if(series.visible == true){
@@ -137,9 +138,6 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
         borderWidth: 0
       },
     },
-    // series: [{
-    //   colorByPoint: true,
-    // }]
   });
 });
 
