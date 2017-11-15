@@ -65,10 +65,8 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              series = highcharts.series[1];
-              console.log(series)
+              series = highcharts.series[getSeriesIndex(this.options.name)];
               if(series.visible == true){
-                console.log('here')
                 series.setVisible(false);
               } else {
                 series.setVisible(true);
@@ -90,19 +88,6 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
 
 
   Highcharts.chart('histogram-container', {
-    // data: {
-    //   csv: data,
-    //   startColumn: 0,
-    //   endColumn: 4,
-    //   parsed: function(columns){
-    //     console.log(columns)
-    //     console.log(data)
-    //     columns = data.split('\n')[0].split(',');
-    //     console.log(columns)
-    //     // columns.splice(1, 1)
-    //   },
-    //   firstRowAsNames: true,
-    // },
     chart: {
       type: 'column'
     },
@@ -134,17 +119,18 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
     plotOptions: {
       series: {
         point: {
-          // events: {
-          //   click: function (event) {
-          //     if(this.graphic.visibility == 'hidden'){
-          //       this.graphic.show();
-          //     } else {
-          //       this.graphic.hide();
-          //     }
-          //   },
-          // },
-        },
-        allowPointSelect: true
+          events: {
+            legendItemClick: function (event) {
+              var highcharts = $('#pie-container').highcharts(),
+              series = highcharts.series[getSeriesIndex(this.options.name)];
+              if(series.visible == true){
+                series.setVisible(false);
+              } else {
+                series.setVisible(true);
+              }
+            }
+          }
+        }
       },
       column: {
         pointPadding: 0.2,
@@ -156,3 +142,17 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
     // }]
   });
 });
+
+function getSeriesIndex(name){
+  if (name=='bond') {
+    return 0;
+  } else if (name=='swaps') {
+    return 1;
+  }  else if (name=='fx') {
+    return 2;
+  }  else if (name=='fx options') {
+    return 3;
+  }  else if (name=='equities') {
+    return 4;
+  }
+}
