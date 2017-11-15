@@ -1,4 +1,30 @@
 $.get('http://localhost:3000/data', function (data) {
+
+  var lines = data.split('\n');
+  lines.pop()
+  var categoriesArr = [];
+  var seriesArr = [];
+  lines.forEach((line, index) => {
+    if (index == 0) {
+      categoriesArr = line.split(',').slice(2);
+    } else {
+      var series = {
+        data: []
+      };
+      line.split(',').forEach((item, index) => {
+        if (index == 0) {
+          series.name = item;
+          series.id = item;
+        } else if (index == 1) {
+          //DO NOTHING
+        } else {
+          series.data.push(parseInt(item));
+        }
+      });
+      seriesArr.push(series);
+    }
+  });
+
   Highcharts.setOptions({
     chart: {
       style: {
@@ -20,11 +46,8 @@ $.get('http://localhost:3000/data', function (data) {
   Highcharts.chart('pie-container', {
     data: {
       csv: data,
-      seriesMapping: [{
-        id: 0,
-        x: 0,
-        y: 1,
-      }]
+      startColumn: 0,
+      endColumn: 1,
     },
     chart: {
       type: 'pie'
@@ -42,12 +65,13 @@ $.get('http://localhost:3000/data', function (data) {
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              column = highcharts.get(this.options.id);
-              console.log(column)
-              if(column.graphic.visibility == 'hidden'){
-                column.graphic.show();
+              series = highcharts.series[1];
+              console.log(series)
+              if(series.visible == true){
+                console.log('here')
+                series.setVisible(false);
               } else {
-                column.graphic.hide();
+                series.setVisible(true);
               }
             }
           }
@@ -66,15 +90,19 @@ $.get('http://localhost:3000/data', function (data) {
 
 
   Highcharts.chart('histogram-container', {
-    data: {
-      csv: data,
-      seriesMapping: [{
-        id: 0,
-        name: 0,
-        x: 0,
-        y: 1,
-      }]
-    },
+    // data: {
+    //   csv: data,
+    //   startColumn: 0,
+    //   endColumn: 4,
+    //   parsed: function(columns){
+    //     console.log(columns)
+    //     console.log(data)
+    //     columns = data.split('\n')[0].split(',');
+    //     console.log(columns)
+    //     // columns.splice(1, 1)
+    //   },
+    //   firstRowAsNames: true,
+    // },
     chart: {
       type: 'column'
     },
@@ -85,14 +113,14 @@ $.get('http://localhost:3000/data', function (data) {
       text: 'A different look'
     },
     tooltip: {
-      headerFormat: '<b>{point.key}</b><br/>',
+      headerFormat: '<b>{point.name}</b><br/>',
       pointFormat: '${point.y}'
     },
     xAxis: {
-
+      categories: categoriesArr,
     },
     legend: {
-      enabled: false,
+      enabled: true,
     },
     yAxis: {
       title: {
@@ -102,6 +130,7 @@ $.get('http://localhost:3000/data', function (data) {
         text: 'Dollars ($)'
       }
     },
+    series: seriesArr,
     plotOptions: {
       series: {
         point: {
@@ -122,8 +151,8 @@ $.get('http://localhost:3000/data', function (data) {
         borderWidth: 0
       },
     },
-    series: [{
-      colorByPoint: true,
-    }]
+    // series: [{
+    //   colorByPoint: true,
+    // }]
   });
 });
