@@ -120,9 +120,10 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
       series: {
         events: {
           legendItemClick: function (event) {
+            // console.log(event);
             var highcharts = $('#pie-container').highcharts(),
             point = highcharts.get(this.options.id);
-            console.log(highcharts.series[0].data)
+            // console.log(highcharts.get(this.options.name))
             if (point) {
               point.setVisible(!this.visible);
             }
