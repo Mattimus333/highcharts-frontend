@@ -1,18 +1,30 @@
-$.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
+$.get('http://localhost:3000/data', function (data) {
 
-  var APIdata = data[0];
-  var itemValueArr = [];
-  console.log('this shit')
-  for (var item in APIdata){
-      itemName = item.charAt(0).toUpperCase() + item.slice(1);
-      itemValueArr.push({
-        id: itemName,
-        name: itemName,
-        data: [APIdata[item]],
-        y: APIdata[item],
+  var lines = data.split('\n');
+  lines.pop()
+  var categoriesArr = [];
+  var seriesArr = [];
+  lines.forEach((line, index) => {
+    if (index == 0) {
+      categoriesArr = line.split(',').slice(2);
+    } else {
+      var series = {
+        data: []
+      };
+      line.split(',').forEach((item, index) => {
+        if (index == 0) {
+          series.name = item;
+          series.id = item;
+        } else if (index == 1) {
+          //DO NOTHING
+        } else {
+          series.data.push(parseInt(item));
+        }
       });
-  }
-  console.log(itemValueArr);
+      seriesArr.push(series);
+    }
+  });
+
   Highcharts.setOptions({
     chart: {
       style: {
@@ -32,6 +44,11 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
 
 
   Highcharts.chart('pie-container', {
+    data: {
+      csv: data,
+      startColumn: 0,
+      endColumn: 1,
+    },
     chart: {
       type: 'pie'
     },
@@ -48,13 +65,13 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
           events: {
             legendItemClick: function (event) {
               var highcharts = $('#histogram-container').highcharts(),
-              series = highcharts.get(this.options.id);
-              if (series) {
-                if (this.visible) {
-                    series.hide();
-                } else {
-                    series.show();
-                }
+              series = highcharts.series[1];
+              console.log(series)
+              if(series.visible == true){
+                console.log('here')
+                series.setVisible(false);
+              } else {
+                series.setVisible(true);
               }
             }
           }
@@ -69,13 +86,23 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
         showInLegend: true
       },
     },
-    series: [{
-      data: itemValueArr
-    }]
   });
 
 
   Highcharts.chart('histogram-container', {
+    // data: {
+    //   csv: data,
+    //   startColumn: 0,
+    //   endColumn: 4,
+    //   parsed: function(columns){
+    //     console.log(columns)
+    //     console.log(data)
+    //     columns = data.split('\n')[0].split(',');
+    //     console.log(columns)
+    //     // columns.splice(1, 1)
+    //   },
+    //   firstRowAsNames: true,
+    // },
     chart: {
       type: 'column'
     },
@@ -86,16 +113,11 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
       text: 'A different look'
     },
     tooltip: {
-      headerFormat: '<b>{series.name}</b><br/>',
+      headerFormat: '<b>{point.name}</b><br/>',
       pointFormat: '${point.y}'
     },
     xAxis: {
-      categories: itemValueArr.map((item) => {
-        return item.name
-      }),
-      labels: {
-        enabled: false,
-      },
+      categories: categoriesArr,
     },
     legend: {
       enabled: true,
@@ -108,24 +130,29 @@ $.getJSON('https://highcharts-basic-demo-api.herokuapp.com/data', function (data
         text: 'Dollars ($)'
       }
     },
+    series: seriesArr,
     plotOptions: {
       series: {
-        events: {
-          legendItemClick: function (event) {
-            var highcharts = $('#pie-container').highcharts(),
-            point = highcharts.get(this.options.id);
-            if (point) {
-              point.setVisible(!this.visible);
-            }
-          }
+        point: {
+          // events: {
+          //   click: function (event) {
+          //     if(this.graphic.visibility == 'hidden'){
+          //       this.graphic.show();
+          //     } else {
+          //       this.graphic.hide();
+          //     }
+          //   },
+          // },
         },
         allowPointSelect: true
       },
       column: {
-          pointPadding: 0.2,
-          borderWidth: 0
-      }
+        pointPadding: 0.2,
+        borderWidth: 0
+      },
     },
-    series: itemValueArr
+    // series: [{
+    //   colorByPoint: true,
+    // }]
   });
 });
