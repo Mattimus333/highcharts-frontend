@@ -1,33 +1,5 @@
 $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
 
-  var lines = data.split('\n');
-  lines.pop()
-  var categoriesArr = [];
-  var seriesArr = [];
-  lines.forEach((line, index) => {
-    if (index == 0) {
-      categoriesArr = line.split(',').slice(2);
-    } else {
-      var series = {
-        data: []
-      };
-      line.split(',').forEach((item, index) => {
-        if (index == 0) {
-          series.name = item.replace(/"/g, '');
-          series.id = item.replace(/"/g, '');
-        } else if (index == 1) {
-          //DO NOTHING
-        } else {
-          series.data.push(parseInt(item));
-        }
-      });
-      seriesArr.push(series);
-    }
-  });
-  categoriesArr = categoriesArr.map((item) => {
-    return item.replace(/"/g, '');
-  });
-  console.log(categoriesArr)
   Highcharts.setOptions({
     chart: {
       style: {
@@ -94,8 +66,6 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
     data: {
       csv: data,
       switchRowsAndColumns: true,
-      // startColumn: 0,
-      // endColumn: 1,
     },
     chart: {
       type: 'column'
@@ -124,7 +94,6 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
         text: 'Dollars ($)'
       }
     },
-    // series: seriesArr,
     plotOptions: {
       series: {
         events: {
