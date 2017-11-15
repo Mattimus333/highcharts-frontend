@@ -1,4 +1,4 @@
-$.get('http://localhost:3000/data', function (data) {
+$.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
 
   var lines = data.split('\n');
   lines.pop()
