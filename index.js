@@ -98,6 +98,12 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
 
 
   Highcharts.chart('histogram-container', {
+    data: {
+      csv: data,
+      switchRowsAndColumns: true,
+      // startColumn: 0,
+      // endColumn: 1,
+    },
     chart: {
       type: 'column'
     },
@@ -112,7 +118,7 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
       pointFormat: '${point.y}'
     },
     xAxis: {
-      categories: categoriesArr,
+      // categories: categoriesArr,
     },
     legend: {
       enabled: true,
@@ -125,13 +131,14 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
         text: 'Dollars ($)'
       }
     },
-    series: seriesArr,
+    // series: seriesArr,
     plotOptions: {
       series: {
         events: {
           legendItemClick: function (event) {
             var highcharts = $('#pie-container').highcharts(),
             point = highcharts.get(this.options.id);
+            console.log(point)
             if (point) {
               point.setVisible(!this.visible);
             }
