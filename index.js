@@ -118,20 +118,16 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
     series: seriesArr,
     plotOptions: {
       series: {
-        point: {
-          events: {
-            legendItemClick: function (event) {
-              console.log('this happened')
-              var highcharts = $('#pie-container').highcharts(),
-              series = highcharts.series[getSeriesIndex(this.options.name)];
-              if(series.visible == true){
-                series.setVisible(false);
-              } else {
-                series.setVisible(true);
-              }
+        events: {
+          legendItemClick: function (event) {
+            var highcharts = $('#pie-container').highcharts(),
+            point = highcharts.get(this.options.id);
+            console.log(highcharts.series[0].data)
+            if (point) {
+              point.setVisible(!this.visible);
             }
           }
-        }
+        },
       },
       column: {
         pointPadding: 0.2,
