@@ -1,5 +1,20 @@
-$.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
+// A function that maps the category name with the appriate index in the highchart class series array.
+function getSeriesIndex(name){
+  if (name=='bond') {
+    return 0;
+  } else if (name=='swaps') {
+    return 1;
+  }  else if (name=='fx') {
+    return 2;
+  }  else if (name=='fx options') {
+    return 3;
+  }  else if (name=='equities') {
+    return 4;
+  }
+}
 
+$.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
+  console.log(data);
   Highcharts.setOptions({
     chart: {
       style: {
@@ -80,9 +95,6 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
       headerFormat: '<b>{point.name}</b><br/>',
       pointFormat: '${point.y}'
     },
-    xAxis: {
-      // categories: categoriesArr,
-    },
     legend: {
       enabled: true,
     },
@@ -116,17 +128,3 @@ $.get('https://highcharts-basic-demo-api.herokuapp.com/data', function (data) {
     },
   });
 });
-
-function getSeriesIndex(name){
-  if (name=='bond') {
-    return 0;
-  } else if (name=='swaps') {
-    return 1;
-  }  else if (name=='fx') {
-    return 2;
-  }  else if (name=='fx options') {
-    return 3;
-  }  else if (name=='equities') {
-    return 4;
-  }
-}
